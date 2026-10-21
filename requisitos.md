@@ -44,9 +44,9 @@ outra cor que o usuário vai escolher, usando o circulo cromático.
 * Os clientes devem visualizar somente os dados dos próprios pedidos.
 * O sistema deve respeitar a privacidade e proteger os dados pessoais dos usuários.
 
-#### Regras de negócio (CORE)
-Tratar senhas de usuários com hash bcript
-O sistema deve ter uma página de históricos e manter sempre os logs de qualquer alteração feita por 
+## Regras de negócio (CORE)
+- Tratar senhas de usuários com hash bcript
+- O sistema deve ter uma página de históricos e manter sempre os logs de qualquer alteração feita por 
 qualquer usuário, para auditorias futuras.
 
 ##### Segurança e proteção de senhas
@@ -107,7 +107,7 @@ qualquer usuário, para auditorias futuras.
 * Deve informar o status do pedido somente com base nos dados reais do sistema.
 * Deve encaminhar o cliente para atendimento humano quando necessário.
 
-##### Regras Globais
+## Regras Globais
 - Use sempre PDO para conexão e queries no MySQL para evitar SQL Injections
 - Mantenha o código limpo e comente apenas logicas complexas.
 - Separe os arquivos de forma lógica: um arquivo para conexão com a base (bd.php) e scripts de backend isolados e views em HTML5/PHP, nunca faça o sistema como um monolito, deixe sempre separados todas as regras para facilitar os futuros upgrades.
