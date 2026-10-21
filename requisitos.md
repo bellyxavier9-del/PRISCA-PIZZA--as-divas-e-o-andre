@@ -1,10 +1,9 @@
 # Prisca Pizza
 
 ## Objetivos
-O sistema vai escolher uma cor aleatória e gerar uma combinação de cores baseado na escolha de uma 
-outra cor que o usuário vai escolher, usando o circulo cromático.
+O sistema vai permitir que clientes façam pedidos de pizzas, esfihas, bebidas e sobremesas da Prisca Pizza pela internet, acompanhem o andamento do pedido até a entrega, e que a pizzaria e o entregador gerenciem esses pedidos em painéis próprios.
 
-### Stack Tecnlógico
+## Stack Tecnológico
 - Backend: PHP estruturado com sessões nativas
 - Banco de dados: MySQL (PDO para segurança)
 - Frontend: HTML5, PHP, CSS, Tailwind CSS
@@ -21,7 +20,7 @@ outra cor que o usuário vai escolher, usando o circulo cromático.
 ### Perfil 2 — Atendente de caixa
 * Deve acessar um painel interno de gerenciamento de pedidos.
 * Pode visualizar os novos pedidos, conferir as informações necessárias e encaminhá-los para a cozinha.
-* Pode verificar o status dos pagamentos por meio da integração com o sistema de pagamento.
+* Pode verificar o status dos pagamentos dos pedidos.
 * Pode atualizar os estados do pedido conforme as permissões definidas.
 * Pode organizar pedidos para retirada ou entrega.
 * Não pode consultar senhas dos clientes nem acessar funções administrativas não autorizadas.
@@ -32,6 +31,15 @@ outra cor que o usuário vai escolher, usando o circulo cromático.
 * Deve visualizar os produtos, tamanhos, sabores, adicionais e observações relevantes.
 * Pode atualizar o pedido para “Em preparo” e “Pronto”.
 * Não deve acessar dados de pagamento desnecessários ou informações pessoais que não sejam relevantes para a preparação.
+
+### Perfil 4 — Entregador
+* Deve acessar um painel específico para entregas.
+* Pode visualizar os pedidos prontos para entrega.
+* Pode pegar um pedido e atualizá-lo para “Saiu para entrega”.
+* Deve visualizar o nome, o endereço e o telefone do cliente apenas dos pedidos que está entregando.
+* Deve visualizar a forma de pagamento apenas para saber se há valor a receber na entrega.
+* Pode atualizar o pedido para “Entregue” ao concluir a entrega.
+* Não pode consultar senhas, pedidos de outros entregadores nem acessar funções administrativas.
 
 ### Regras gerais de segurança
 * Cada usuário deve ter seu próprio acesso e perfil.
@@ -44,12 +52,40 @@ outra cor que o usuário vai escolher, usando o circulo cromático.
 * Os clientes devem visualizar somente os dados dos próprios pedidos.
 * O sistema deve respeitar a privacidade e proteger os dados pessoais dos usuários.
 
-## Regras de negócio (CORE)
-- Tratar senhas de usuários com hash bcript
-- O sistema deve ter uma página de históricos e manter sempre os logs de qualquer alteração feita por 
-qualquer usuário, para auditorias futuras.
+### Fluxo de status do pedido
+* Os pedidos devem seguir a ordem: Recebido → Em preparo → Pronto → Saiu para entrega → Entregue.
+* O pedido também pode ser marcado como Cancelado, apenas por usuários autorizados.
+* O Atendente de caixa confere o pedido recebido e o encaminha para a cozinha.
+* O Pizzaiolo atualiza o pedido para “Em preparo” e “Pronto”.
+* O Entregador atualiza o pedido para “Saiu para entrega” e “Entregue”.
+* Em pedidos para retirada, o Atendente de caixa conclui o pedido quando o cliente retirar.
+* Cada mudança de status deve registrar quem fez, quando fez e qual era o status anterior.
+* O cliente deve visualizar o status atual e o prazo estimado de preparo e entrega do próprio pedido.
 
-##### Segurança e proteção de senhas
+## Pedido do cliente
+* Para fazer um pedido, o cliente deve ter cadastro e estar conectado ao sistema.
+* O cardápio deve ser dividido em: pizzas, esfihas, bebidas e sobremesas.
+* O cliente pode selecionar os produtos, personalizá-los e adicionar observações.
+* O sistema deve registrar as alterações e observações feitas pelo cliente.
+* Antes do pagamento, o sistema deve exibir o resumo do pedido e o valor total.
+* Ao concluir a entrega, o sistema deve registrar a conclusão no pedido.
+
+## Pagamento
+* As formas de pagamento disponíveis são: pix, cartão e dinheiro.
+* O pagamento será simulado, sem integração com serviços de pagamento reais.
+* No pix, o sistema deve gerar um código pix fictício para o cliente “pagar”.
+* No cartão, o sistema deve simular a aprovação do pagamento sem guardar dados reais do cartão.
+* No dinheiro, o pagamento é feito na entrega ou na retirada.
+* O Atendente de caixa deve poder visualizar o status do pagamento de cada pedido.
+
+## Atualização dos painéis
+* Os painéis internos devem buscar novos pedidos e mudanças de status automaticamente a cada poucos segundos, de forma simples, sem exigir que a página seja recarregada.
+
+## Regras de negócio (CORE)
+- Tratar senhas de usuários com hash bcrypt
+- O sistema deve ter uma página de históricos e manter sempre os logs de qualquer alteração feita por qualquer usuário, para auditorias futuras.
+
+### Segurança e proteção de senhas
 * O sistema deve proteger as senhas de todos os usuários cadastrados.
 * As senhas nunca devem ser armazenadas em texto puro no banco de dados.
 * O sistema deve utilizar uma função segura de hash de senhas, como Argon2id, bcrypt ou scrypt.
@@ -109,8 +145,8 @@ qualquer usuário, para auditorias futuras.
 
 ## Regras Globais
 - Use sempre PDO para conexão e queries no MySQL para evitar SQL Injections
-- Mantenha o código limpo e comente apenas logicas complexas.
+- Mantenha o código limpo e comente apenas lógicas complexas.
 - Separe os arquivos de forma lógica: um arquivo para conexão com a base (bd.php) e scripts de backend isolados e views em HTML5/PHP, nunca faça o sistema como um monolito, deixe sempre separados todas as regras para facilitar os futuros upgrades.
- - Estilize as telas em Tailwind de forma responsiva priorizando o MobileFrist.
- - Retorne sempre as mensagens de erros de forma claras na interface para o usuário (TOAST)
- - sempre trate as mensagens de caixa de mensagens nativas do navegador em um MODAL
+- Estilize as telas em Tailwind de forma responsiva priorizando o Mobile First.
+- Retorne sempre as mensagens de erros de forma claras na interface para o usuário (TOAST)
+- Sempre trate as mensagens de caixa de mensagens nativas do navegador em um MODAL
