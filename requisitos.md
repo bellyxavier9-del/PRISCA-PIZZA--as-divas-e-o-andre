@@ -1,7 +1,7 @@
 # Prisca Pizza
 
 ## Objetivos
-O sistema vai permitir que clientes façam pedidos de pizzas, esfihas, bebidas e sobremesas da Prisca Pizza pela internet, acompanhem o andamento do pedido até a entrega, e que a pizzaria e o entregador gerenciem esses pedidos em painéis próprios.
+Crie um sistema que permita que clientes façam pedidos de pizzas, esfihas, bebidas e sobremesas da Prisca Pizza pela internet, acompanhem o andamento do pedido até a entrega, e que a pizzaria e o entregador gerenciem esses pedidos em painéis próprios.
 
 ## Stack Tecnológico
 - Backend: PHP estruturado com sessões nativas
